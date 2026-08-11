@@ -25,8 +25,15 @@ Came over from my rice, **[rokokol/huix](https://github.com/rokokol/huix)**
 nix build github:rokokol/ddlc-rofi-theme && cat result/share/rofi/themes/ddlc-dark.rasi
 ```
 
-![The light variant](docs/screenshot-light.png)
-![The dark variant](docs/screenshot-dark.png)
+## What it looks like
+
+**Dark**, on the club's evening paper. The polka grid shows through the rows, and the selected one is a wash of plum rather than an opaque bar — an opaque surface would read as a sticker on that ground, and the pink edge would vanish into it:
+
+![The dark variant, showing the drun launcher](docs/screenshot-dark.png)
+
+**Light**, the same layout on paper white. The rows here come from [rofi-wooordhunt](https://github.com/rokokol/rofi-wooordhunt), a mode of my own — the theme knows nothing about what fills them, which is the point:
+
+![The light variant, showing a dictionary mode](docs/screenshot-light.png)
 
 ## Install
 

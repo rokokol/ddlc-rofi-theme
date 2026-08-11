@@ -25,8 +25,15 @@
 nix build github:rokokol/ddlc-rofi-theme && cat result/share/rofi/themes/ddlc-dark.rasi
 ```
 
-![Светлый вариант](docs/screenshot-light.png)
-![Тёмный вариант](docs/screenshot-dark.png)
+## Как выглядит
+
+**Тёмный**, на вечерней клубной бумаге. Горошек просвечивает сквозь строки, а выделенная — не плашка, а замыв сливовым: непрозрачная поверхность читалась бы на этом фоне наклейкой, и розовая рамка в ней бы утонула:
+
+![Тёмный вариант, лаунчер drun](docs/screenshot-dark.png)
+
+**Светлый**, та же вёрстка на белой бумаге. Строки здесь — [rofi-wooordhunt](https://github.com/rokokol/rofi-wooordhunt), мой собственный режим: тема не знает, чем они заполнены, в этом и смысл:
+
+![Светлый вариант, режим словаря](docs/screenshot-light.png)
 
 ## Установка
 
