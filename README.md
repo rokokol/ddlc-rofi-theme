@@ -25,6 +25,19 @@ Came over from my rice, **[rokokol/huix](https://github.com/rokokol/huix)**
 nix build github:rokokol/ddlc-rofi-theme && cat result/share/rofi/themes/ddlc-dark.rasi
 ```
 
+## Contents
+
+- [What it looks like](#what-it-looks-like)
+- [Install](#install)
+  - [Home Manager](#home-manager)
+  - [Any other distribution](#any-other-distribution)
+  - [The fonts are not in here](#the-fonts-are-not-in-here)
+- [The switch](#the-switch)
+- [How rofi finds it](#how-rofi-finds-it)
+- [Tests](#tests)
+- [Layout](#layout)
+- [License](#license)
+
 ## What it looks like
 
 ![The dark variant, showing the drun launcher](docs/screenshot-dark.png)
