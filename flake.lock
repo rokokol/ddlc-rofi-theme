@@ -1,0 +1,48 @@
+{
+  "nodes": {
+    "ddlc-palette": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786448652,
+        "narHash": "sha256-VyHaCrjO26miRPKmjEFhHI4RwBpPiZFZ9kP4p9kuCxU=",
+        "owner": "rokokol",
+        "repo": "ddlc-palette",
+        "rev": "6a2277adb38b70cbed5711d15de2b47670f2546c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rokokol",
+        "repo": "ddlc-palette",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1786247143,
+        "narHash": "sha256-8S3Kcxs7D4UtxJxSJZz0m14CGhuW0MxfrIwJxeGWGnQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "279b4a8275f032c566576b3f181fa0f27197f588",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "ddlc-palette": "ddlc-palette",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

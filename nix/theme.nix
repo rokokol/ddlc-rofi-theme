@@ -1,6 +1,16 @@
-# One rofi layout, two colour sets. Light and dark differed only in their hexes, so the
-# structure lived twice; now it lives here and each set is a list of ddlc-palette keys
-{ palette }:
+# One rofi layout, two colour sets. Light and dark differ only in their hexes, so the
+# structure lives once and each set is a list of ddlc-palette keys
+#
+# palette is ddlc-palette's flat attrset plus its rgba helper:
+#   inputs.ddlc-palette.lib.palette // { inherit (inputs.ddlc-palette.lib) rgba; }
+{
+  palette,
+  width ? "720px",
+  font ? "sans-serif 12",
+  promptFont ? font,
+  monoFont ? "monospace 12",
+  placeholder ? "Okay, everyone!",
+}:
 
 let
   # The same half-step offset grid the site's tile uses, as one SVG instead of 30 hand-placed circles
@@ -21,7 +31,7 @@ let
           cy = 38 + y * row;
           shift = if (builtins.bitAnd y 1) == 1 then step / 2 else 0;
           cols = builtins.genList (
-            x: ''    <circle cx="${toString (55 + shift + x * step)}" cy="${toString cy}" r="${toString r}" />''
+            x: ''<circle cx="${toString (55 + shift + x * step)}" cy="${toString cy}" r="${toString r}" />''
           ) (w / step + 1);
         in
         builtins.concatStringsSep "\n" cols
@@ -37,17 +47,23 @@ let
       </svg>
     '';
 
+  # Shared by both sets, so they are not colour-set arguments: the pink border is the
+  # theme's signature on either ground, and these alphas read the same on both
+  edge = "pink";
+  panelAlpha = "0.92";
+  wellAlpha = "0.45";
+  innerEdgeAlpha = "0.45";
+  msgAlpha = "0.77";
+  placeholderAlpha = "0.5";
+
   # Every colour below is a palette key, so a set reads as a list of names
   rasi =
     {
       polka,
       ground,
       panel,
-      panelAlpha,
       text,
-      placeholderAlpha,
       accent,
-      edge,
       edgeAlpha,
       rowEdge,
       rowEdgeAlpha,
@@ -58,7 +74,6 @@ let
       alt,
       altAlpha,
       msg,
-      msgAlpha,
     }:
     let
       hex = n: palette.${n};
@@ -70,25 +85,25 @@ let
         text-color: ${hex text};
         margin: 0px;
         padding: 0px;
-        font: "Doki 12";
+        font: "${font}";
       }
 
       window {
         location: center;
-        width: 720px;
+        width: ${width};
         border: 2px;
         border-color: ${rgba edge edgeAlpha};
         border-radius: 28px;
         dynamic: true;
         padding: 18px;
         background-color: ${hex ground};
-        background-image: url("../assets/${polka}", both);
+        background-image: url("${polka}", both);
       }
 
       inputbar {
         background-color: ${rgba panel panelAlpha};
         border: 1px;
-        border-color: ${rgba edge "0.5"};
+        border-color: ${rgba edge innerEdgeAlpha};
         margin: 6px 6px 14px 6px;
         padding: 14px 16px;
         border-radius: 18px;
@@ -98,17 +113,17 @@ let
       prompt {
         text-color: ${hex accent};
         margin: 0px 12px 0px 0px;
-        font: "Doki 13";
+        font: "${promptFont}";
       }
 
       entry {
-        placeholder: "Okay, everyone!";
+        placeholder: "${placeholder}";
         placeholder-color: ${rgba text placeholderAlpha};
         text-color: ${hex text};
       }
 
       listview {
-        background-color: ${rgba panel "0.45"};
+        background-color: ${rgba panel wellAlpha};
         margin: 0px 6px 6px 6px;
         padding: 6px;
         border-radius: 20px;
@@ -125,7 +140,7 @@ let
         border-radius: 18px;
         border: 1px;
         border-color: ${rgba rowEdge rowEdgeAlpha};
-        background-color: ${rgba panel "0.93"};
+        background-color: ${rgba panel panelAlpha};
       }
 
       element-icon {
@@ -141,7 +156,7 @@ let
         horizontal-align: 0;
         vertical-align: 0.5;
         text-color: ${hex text};
-        font: "DepartureMono Nerd Font Mono 12";
+        font: "${monoFont}";
       }
 
       element selected {
@@ -167,13 +182,13 @@ let
         padding: 10px 14px;
         background-color: ${rgba msg msgAlpha};
         border: 1px;
-        border-color: ${rgba edge "0.4"};
+        border-color: ${rgba edge innerEdgeAlpha};
         border-radius: 16px;
       }
 
       textbox {
         text-color: ${hex accent};
-        font: "DepartureMono Nerd Font Mono 12";
+        font: "${monoFont}";
       }
     '';
 in
@@ -188,15 +203,14 @@ in
     dot = palette.yuri;
   };
 
+  # The image is named, not pathed: rofi resolves a bare filename against
+  # $XDG_CONFIG_HOME/rofi/themes and the data dirs, which is where both files ship
   light = rasi {
-    polka = "polka-light.svg";
+    polka = "ddlc-polka-light.svg";
     ground = "paper";
     panel = "paper";
-    panelAlpha = "0.92";
     text = "ink";
-    placeholderAlpha = "0.52";
     accent = "plum";
-    edge = "pink";
     edgeAlpha = "0.96";
     rowEdge = "blush";
     rowEdgeAlpha = "0.94";
@@ -209,18 +223,14 @@ in
     alt = "dot";
     altAlpha = "0.55";
     msg = "dot";
-    msgAlpha = "0.77";
   };
 
   dark = rasi {
-    polka = "polka-dark.svg";
+    polka = "ddlc-polka-dark.svg";
     ground = "yuriShadow";
     panel = "yuri";
-    panelAlpha = "0.92";
     text = "dot";
-    placeholderAlpha = "0.48";
     accent = "pink";
-    edge = "pink";
     edgeAlpha = "0.72";
     rowEdge = "plum";
     rowEdgeAlpha = "0.55";
@@ -233,6 +243,5 @@ in
     alt = "yuri";
     altAlpha = "0.96";
     msg = "yuri";
-    msgAlpha = "0.77";
   };
 }

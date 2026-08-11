@@ -1,0 +1,110 @@
+* {
+  background-color: transparent;
+  text-color: #222222;
+  margin: 0px;
+  padding: 0px;
+  font: "sans-serif 12";
+}
+
+window {
+  location: center;
+  width: 720px;
+  border: 2px;
+  border-color: rgba(221, 119, 187, 0.96);
+  border-radius: 28px;
+  dynamic: true;
+  padding: 18px;
+  background-color: #FFFFFF;
+  background-image: url("ddlc-polka-light.svg", both);
+}
+
+inputbar {
+  background-color: rgba(255, 255, 255, 0.92);
+  border: 1px;
+  border-color: rgba(221, 119, 187, 0.45);
+  margin: 6px 6px 14px 6px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  children: [ prompt, entry ];
+}
+
+prompt {
+  text-color: #BB5599;
+  margin: 0px 12px 0px 0px;
+  font: "sans-serif 12";
+}
+
+entry {
+  placeholder: "Okay, everyone!";
+  placeholder-color: rgba(34, 34, 34, 0.5);
+  text-color: #222222;
+}
+
+listview {
+  background-color: rgba(255, 255, 255, 0.45);
+  margin: 0px 6px 6px 6px;
+  padding: 6px;
+  border-radius: 20px;
+  columns: 1;
+  lines: 6;
+  spacing: 8px;
+  fixed-height: false;
+}
+
+element {
+  orientation: horizontal;
+  padding: 10px 14px;
+  spacing: 10px;
+  border-radius: 18px;
+  border: 1px;
+  border-color: rgba(255, 189, 225, 0.94);
+  background-color: rgba(255, 255, 255, 0.92);
+}
+
+element-icon {
+  background-color: rgba(187, 85, 153, 0.09);
+  padding: 6px;
+  size: 28px;
+  horizontal-align: 0.5;
+  vertical-align: 0.5;
+  border-radius: 12px;
+}
+
+element-text {
+  horizontal-align: 0;
+  vertical-align: 0.5;
+  text-color: #222222;
+  font: "monospace 12";
+}
+
+element selected {
+  background-color: rgba(221, 119, 187, 0.45);
+  border-color: #BB5599;
+  text-color: #222222;
+}
+
+element selected element-text {
+  text-color: #222222;
+}
+
+element selected element-icon {
+  background-color: rgba(34, 34, 34, 0.16);
+}
+
+element alternate {
+  background-color: rgba(255, 219, 240, 0.55);
+}
+
+message {
+  margin: 8px 10px 0px 10px;
+  padding: 10px 14px;
+  background-color: rgba(255, 219, 240, 0.77);
+  border: 1px;
+  border-color: rgba(221, 119, 187, 0.45);
+  border-radius: 16px;
+}
+
+textbox {
+  text-color: #BB5599;
+  font: "monospace 12";
+}

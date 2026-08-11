@@ -1,0 +1,36 @@
+name: build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  nix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - run: nix build --no-write-lock-file .#ddlc-rofi-theme
+      # tests, dist-is-current, theme-parses, module-wiring, scripts-lint
+      - run: nix flake check --no-write-lock-file
+      # The theme must stay usable without Nix: install.sh copies dist/ into a share
+      # directory rofi searches, and the switch has to find it from its own location
+      # alone — nothing is set here
+      - name: install.sh works
+        run: |
+          PREFIX=$PWD/out ./install.sh
+          test -f out/share/rofi/themes/ddlc-light.rasi
+          test -f out/share/rofi/themes/ddlc-polka-light.svg
+          HOME=$PWD/fake XDG_CONFIG_HOME=$PWD/fake/.config out/bin/ddlc-rofi-theme dark
+          test "$(readlink fake/.config/rofi/themes/ddlc.rasi)" = "$PWD/out/share/rofi/themes/ddlc-dark.rasi"
+      - run: nix fmt -- --ci
+
+  shell:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: cachix/install-nix-action@v31
+      - run: nix run nixpkgs#shellcheck -- install.sh ddlc-rofi-theme.sh tests/run.sh
+      - run: nix run nixpkgs#shfmt -- -d -i 2 -ci install.sh ddlc-rofi-theme.sh tests/run.sh
