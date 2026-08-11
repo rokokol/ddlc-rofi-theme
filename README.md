@@ -14,7 +14,7 @@
 
 </div>
 
-Rounded translucent rows on the club's own polka-dot paper, in both a light and a dark variant, plus the one-word switch between them
+Rounded translucent rows on the game's own polka-dot background, in both a light and a dark variant, plus a simple switch between them
 
 Every colour is a measured one out of [ddlc-palette](https://github.com/rokokol/ddlc-palette), which reads them off [ddlc.moe](https://ddlc.moe) — nothing here is eyeballed. The two variants share one layout and differ only in which palette keys fill it
 
@@ -27,13 +27,10 @@ nix build github:rokokol/ddlc-rofi-theme && cat result/share/rofi/themes/ddlc-da
 
 ## What it looks like
 
-**Dark**, on the club's evening paper. The polka grid shows through the rows, and the selected one is a wash of plum rather than an opaque bar — an opaque surface would read as a sticker on that ground, and the pink edge would vanish into it:
-
 ![The dark variant, showing the drun launcher](docs/screenshot-dark.png)
 
-**Light**, the same layout on paper white. The rows here come from [rofi-wooordhunt](https://github.com/rokokol/rofi-wooordhunt), a mode of my own — the theme knows nothing about what fills them, which is the point:
-
 ![The light variant, showing a dictionary mode](docs/screenshot-light.png)
+> The rows here are [rofi-wooordhunt](https://github.com/rokokol/rofi-wooordhunt)
 
 ## Install
 
@@ -82,7 +79,7 @@ ddlc-rofi-theme light
 
 ### The fonts are not in here
 
-The screenshots are set in **Doki**, the fan-made DDLC face, and the rows in [DepartureMono](https://departuremono.com). Neither is shipped — a theme has no business installing fonts — so out of the box the defaults are `sans-serif` and `monospace`. Point `font` and `monoFont` at whatever you have
+The screenshots are set in **Doki**, the game's own face, and the rows in [DepartureMono](https://departuremono.com). Neither is shipped — a theme has no business installing fonts, and Doki is copyrighted besides. Out of the box the defaults are `sans-serif` and `monospace`; point `font` and `monoFont` at whatever you have
 
 ## The switch
 
