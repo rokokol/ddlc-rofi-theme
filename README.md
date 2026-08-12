@@ -10,8 +10,6 @@
 [![license](https://img.shields.io/badge/MIT-3DA639?style=flat)](LICENSE)
 [![build](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/build.yml/badge.svg)](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/build.yml)
 
-[Русский](README.ru.md)
-
 </div>
 
 Rounded translucent rows on the game's own polka-dot background, in both a light and a dark variant, plus a simple switch between them
