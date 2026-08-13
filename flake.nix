@@ -49,12 +49,20 @@
         ddlc-rofi-theme = pkgs.callPackage ./nix/package.nix { inherit palette; };
       });
 
-      homeManagerModules.default = import ./nix/module.nix { inherit self; };
+      # homeModules is the name the flake schema knows; homeManagerModules is what most
+      # consumers still write, so both point at the same module
+      homeModules.default = import ./nix/module.nix { inherit self; };
+      homeManagerModules.default = self.homeModules.default;
 
       # The theme as plain data, for a consumer that wants to render it itself
       lib = {
         theme = import ./nix/theme.nix;
         inherit palette;
+      };
+
+      # For a consumer who reaches for pkgs rather than this flake's packages directly
+      overlays.default = final: _prev: {
+        inherit (self.packages.${final.stdenv.hostPlatform.system}) ddlc-rofi-theme;
       };
 
       checks = forAllSystems (
