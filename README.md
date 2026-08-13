@@ -60,7 +60,7 @@ nix build github:rokokol/ddlc-rofi-theme && cat result/share/rofi/themes/ddlc-da
 
 That deploys both variants, names the theme in your rofi config and picks one the first time — and never again, because which one is live is a runtime choice:
 
-| option | | default |
+| option | what it does | default |
 | --- | --- | --- |
 | `name` | what the theme is called; `<name>.rasi` is what rofi resolves | `ddlc` |
 | `default` | the variant the first activation picks | `light` |
@@ -104,7 +104,7 @@ bind = SUPER, A, exec, ddlc-rofi-theme toggle
 
 Where it looks for the variants, in order: next to the link, then `DDLC_ROFI_THEME_DIR`, then the `share/rofi/themes` of its own installation. Next to the link comes first for a reason — under Nix the packaged variant is a store path, and a symlink into one dangles after the next garbage collection, so the Home Manager module deploys copies into `~/.config` and the switch prefers those
 
-| | |
+| variable | what it sets |
 | --- | --- |
 | `DDLC_ROFI_THEME_NAME` | the theme's name, `ddlc` by default |
 | `DDLC_ROFI_THEME_DIR` | where the variants live, when they are not next to the link |
