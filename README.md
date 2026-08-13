@@ -124,6 +124,8 @@ tests/run.sh   # the switch, against a throwaway config tree
 
 `nix flake check` runs that plus: `dist/` is what the package would generate, both variants parse (`rofi -dump-theme` needs no display, and since rofi exits 0 on a theme it could not parse, the warning is the check), and the Home Manager module is evaluated against option stubs
 
+A weekly workflow re-renders against the palette's HEAD rather than the lock and opens a pull request when they part ways, so a colour cannot move upstream and quietly leave this behind
+
 ## Layout
 
 ```
