@@ -5,12 +5,22 @@ on:
     branches: [master]
   pull_request:
   workflow_dispatch:
+  # Called by update-lock.yml against its temp branch, so the lock bump is checked by this
+  # file rather than by a copy of its commands
+  workflow_call:
+    inputs:
+      ref:
+        type: string
+        required: false
+        default: ""
 
 jobs:
   nix:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
       - uses: cachix/install-nix-action@v31
       - run: nix build --no-write-lock-file .#ddlc-rofi-theme
       # tests, dist-is-current, theme-parses, module-wiring, scripts-lint
@@ -31,6 +41,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
       - uses: cachix/install-nix-action@v31
       - run: nix run nixpkgs#shellcheck -- install.sh ddlc-rofi-theme.sh tests/run.sh
       - run: nix run nixpkgs#shfmt -- -d -i 2 -ci install.sh ddlc-rofi-theme.sh tests/run.sh
