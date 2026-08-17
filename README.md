@@ -80,6 +80,8 @@ sudo ./install.sh          # PREFIX=~/.local ./install.sh for a user install
 
 Nothing is built: [`dist/`](dist) is the rendered theme, committed, so this is a copy into a directory rofi already searches. Then name it in `~/.config/rofi/config.rasi` and pick a variant:
 
+Package recipes can stage the same layout without duplicating it: `DESTDIR="$pkgdir" PREFIX=/usr ./install.sh`
+
 ```conf
 rofi.theme: ddlc
 ```

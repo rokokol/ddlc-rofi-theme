@@ -35,6 +35,10 @@ jobs:
           test -f out/share/rofi/themes/ddlc-polka-light.svg
           HOME=$PWD/fake XDG_CONFIG_HOME=$PWD/fake/.config out/bin/ddlc-rofi-theme dark
           test "$(readlink fake/.config/rofi/themes/ddlc.rasi)" = "$PWD/out/share/rofi/themes/ddlc-dark.rasi"
+          ./install.sh --destdir "$PWD/stage" --prefix /usr
+          test -f stage/usr/share/rofi/themes/ddlc-light.rasi
+          test -x stage/usr/bin/ddlc-rofi-theme
+          ! DESTDIR=$PWD/bad PREFIX=usr ./install.sh >/dev/null 2>&1
       - run: nix fmt -- --ci
 
   shell:
