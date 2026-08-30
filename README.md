@@ -34,7 +34,6 @@ nix build github:rokokol/ddlc-rofi-theme && cat result/share/rofi/themes/ddlc-da
 - [How rofi finds it](#how-rofi-finds-it)
 - [Tests](#tests)
 - [Layout](#layout)
-- [License](#license)
 
 ## What it looks like
 
@@ -138,7 +137,3 @@ dist/                the rendered theme, committed for consumers without Nix
 tests/run.sh         the switch's suite
 install.sh           for systems without Nix
 ```
-
-## License
-
-MIT. The colours are Team Salvato's
