@@ -10,10 +10,14 @@ The seam in `rokokol/huix` is `home-manager/programs/rofi.nix`: `ddlc.rofi.enabl
 
 ```sh
 nix build                # the rendered theme
-nix flake check          # dist/ current, real rofi parses both variants, module wiring, shell lint
+nix flake check          # dist/ current, real rofi parses both variants, module wiring, scripts-lint, both suites
 ./tests/run.sh           # the switch, against a throwaway config tree
+./tests/installer.sh     # install.sh: manifest, sweep, staging, refusal path
+./tests/distro.sh fedora # the full cycle in a real container (docker/podman; deliberate, images are large)
 nix fmt -- --ci
 ```
+
+`VERSION` is the one source of version: `nix/package.nix` reads it, `install.sh -v` prints it, CI asserts `CHANGELOG.md` has a matching heading. `install.sh` follows the huix-standard grammar; one local deviation — the switch goes into `bin/` as a **copy**, not the standard's relative symlink into `share/<name>/`, because it resolves the theme directory relative to its own location (`../share/rofi/themes`), same as the Nix package installs it. New installer flags update both `completions/` files in the same commit, or `check-completions.sh` fails the flake check
 
 ## Layout
 
@@ -22,8 +26,9 @@ nix/theme.nix        the layout and the two colour sets, as one pure function
 nix/                 package.nix, module.nix, module-test.nix
 ddlc-rofi-theme.sh   the light/dark switch
 dist/                the rendered theme, committed for consumers without Nix
-tests/run.sh         the switch's suite
-install.sh           for systems without Nix
+install.sh           for systems without Nix, VERSION its one source of version
+completions/         tab completion for install.sh, drift-checked against it
+tests/               run.sh (the switch), installer.sh, distro.sh, check-completions.sh
 ```
 
 ## Changing a colour

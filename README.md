@@ -10,6 +10,10 @@
 [![assets](https://img.shields.io/badge/assets-Team_Salvato-FF80C0?style=flat)](ASSETS.md)
 [![license](https://img.shields.io/badge/code-MIT-3DA639?style=flat)](LICENSE)
 [![build](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/build.yml/badge.svg)](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/build.yml)
+[![debian](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/distro-debian.yml/badge.svg)](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/distro-debian.yml)
+[![ubuntu](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/distro-ubuntu.yml/badge.svg)](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/distro-ubuntu.yml)
+[![arch](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/distro-arch.yml/badge.svg)](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/distro-arch.yml)
+[![fedora](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/distro-fedora.yml/badge.svg)](https://github.com/rokokol/ddlc-rofi-theme/actions/workflows/distro-fedora.yml)
 
 </div>
 
@@ -80,8 +84,6 @@ sudo ./install.sh          # PREFIX=~/.local ./install.sh for a user install
 
 Nothing is built: [`dist/`](dist) is the rendered theme, committed, so this is a copy into a directory rofi already searches. Then name it in `~/.config/rofi/config.rasi` and pick a variant:
 
-Package recipes can stage the same layout without duplicating it: `DESTDIR="$pkgdir" PREFIX=/usr ./install.sh`
-
 ```conf
 rofi.theme: ddlc
 ```
@@ -89,6 +91,17 @@ rofi.theme: ddlc
 ```sh
 ddlc-rofi-theme light
 ```
+
+Nothing is ever installed behind your back: the script needs only coreutils, and if even that is missing it names what and how to get it, exactly, for your distribution — rofi itself is not a dependency, just a warning when absent. Every path written is recorded in `share/ddlc-rofi-theme/install-manifest`, and `./install.sh --uninstall` takes it all back out
+
+Tab completion for the installer's own flags is sourced from the checkout:
+
+```sh
+source completions/install.sh.bash   # bash
+source completions/install.sh.zsh   # zsh
+```
+
+Package recipes can stage the same layout without duplicating it: `DESTDIR="$pkgdir" PREFIX=/usr ./install.sh`. The installed switch reads `DDLC_ROFI_THEME_NAME` and `DDLC_ROFI_THEME_DIR` — the table under [The switch](#the-switch)
 
 ### The fonts are not in here
 
@@ -121,10 +134,13 @@ Two lookups, both rofi's own, and neither needs a path:
 ## Tests
 
 ```sh
-tests/run.sh   # the switch, against a throwaway config tree
+tests/run.sh         # the switch, against a throwaway config tree
+tests/installer.sh   # install.sh: manifest, sweep, staging, the refusal path
 ```
 
-`nix flake check` runs that plus: `dist/` is what the package would generate, both variants parse (`rofi -dump-theme` needs no display, and since rofi exits 0 on a theme it could not parse, the warning is the check), and the Home Manager module is evaluated against option stubs
+`nix flake check` runs both plus: `dist/` is what the package would generate, both variants parse (`rofi -dump-theme` needs no display, and since rofi exits 0 on a theme it could not parse, the warning is the check), the Home Manager module is evaluated against option stubs, and every shell file passes shellcheck and shfmt with the completions in step with `install.sh`
+
+`tests/distro.sh <distro>` (needs docker or podman) runs the full cycle inside a real `debian`, `ubuntu`, `arch` or `fedora` container: preflight, its printed guidance run verbatim, install, the switch against its own install, uninstall. In CI that is the four distro badges — on push, weekly against `:latest`, never on pull requests
 
 A weekly workflow re-renders against the palette's HEAD rather than the lock and opens a pull request when they part ways, so a colour cannot move upstream and quietly leave this behind
 
@@ -135,6 +151,7 @@ nix/theme.nix        the layout and the two colour sets, as one pure function
 nix/                 package.nix, module.nix, module-test.nix
 ddlc-rofi-theme.sh   the light/dark switch
 dist/                the rendered theme, committed for consumers without Nix
-tests/run.sh         the switch's suite
-install.sh           for systems without Nix
+install.sh           for systems without Nix; VERSION is the one source of version
+completions/         tab completion for install.sh, sourced from the checkout
+tests/               run.sh (the switch), installer.sh, distro.sh, check-completions.sh
 ```

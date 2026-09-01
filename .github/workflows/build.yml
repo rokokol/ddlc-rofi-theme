@@ -5,14 +5,17 @@ on:
     branches: [master]
   pull_request:
   workflow_dispatch:
-  # Called by update-lock.yml against its temp branch, so the lock bump is checked by this
-  # file rather than by a copy of its commands
+  # update-lock.yml runs this workflow, not a copy of its commands, against the bump
+  # branch — without workflow_call + ref that verify step silently checks out master
   workflow_call:
     inputs:
       ref:
         type: string
         required: false
         default: ""
+
+permissions:
+  contents: read
 
 jobs:
   nix:
@@ -22,25 +25,47 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
       - uses: cachix/install-nix-action@v31
+
+      - name: VERSION matches CHANGELOG
+        run: |
+          ver=$(cat VERSION)
+          grep -qF "## [$ver]" CHANGELOG.md || {
+            echo "VERSION says $ver but CHANGELOG.md has no ## [$ver] heading" >&2
+            exit 1
+          }
+
       - run: nix build --no-write-lock-file .#ddlc-rofi-theme
-      # tests, dist-is-current, theme-parses, module-wiring, scripts-lint
+      # tests, installer-suite, dist-is-current, theme-parses, module-wiring, scripts-lint
       - run: nix flake check --no-write-lock-file
-      # The theme must stay usable without Nix: install.sh copies dist/ into a share
-      # directory rofi searches, and the switch has to find it from its own location
-      # alone — nothing is set here
+
+      # The full installer contract lives in tests/installer.sh (run by flake check);
+      # this is the smoke that the same script behaves on a real filesystem outside the
+      # sandbox, switch included
       - name: install.sh works
         run: |
           PREFIX=$PWD/out ./install.sh
           test -f out/share/rofi/themes/ddlc-light.rasi
           test -f out/share/rofi/themes/ddlc-polka-light.svg
+          test -f out/share/ddlc-rofi-theme/install-manifest
           HOME=$PWD/fake XDG_CONFIG_HOME=$PWD/fake/.config out/bin/ddlc-rofi-theme dark
           test "$(readlink fake/.config/rofi/themes/ddlc.rasi)" = "$PWD/out/share/rofi/themes/ddlc-dark.rasi"
+          PREFIX=$PWD/out ./install.sh --uninstall
+          test ! -e out/share/ddlc-rofi-theme
+          test ! -e out/bin/ddlc-rofi-theme
           ./install.sh --destdir "$PWD/stage" --prefix /usr
           test -f stage/usr/share/rofi/themes/ddlc-light.rasi
           test -x stage/usr/bin/ddlc-rofi-theme
-          ! DESTDIR=$PWD/bad PREFIX=usr ./install.sh >/dev/null 2>&1
+          # if-form, not `! cmd`: -e ignores negated pipelines, so a `! cmd` line only
+          # bites while it happens to be the last one — anyone appending disarms it
+          if DESTDIR=$PWD/bad PREFIX=usr ./install.sh >/dev/null 2>&1; then
+            echo "a relative PREFIX was accepted" >&2
+            exit 1
+          fi
+
       - run: nix fmt -- --ci
 
+  # The one file list lives in the flake's scripts-lint check — this job is a fast,
+  # separately-named status for it, not a second copy of the commands
   shell:
     runs-on: ubuntu-latest
     steps:
@@ -48,5 +73,13 @@ jobs:
         with:
           ref: ${{ inputs.ref }}
       - uses: cachix/install-nix-action@v31
-      - run: nix develop --no-write-lock-file --command shellcheck install.sh ddlc-rofi-theme.sh tests/run.sh
-      - run: nix develop --no-write-lock-file --command shfmt -d -i 2 -ci install.sh ddlc-rofi-theme.sh tests/run.sh
+      # nix run/shell nixpkgs#tool is a mirror-fate lookup — whatever nixpkgs the runner
+      # resolves today decides the job. Tools a workflow needs live in the flake's dev
+      # shell, pinned by the lock, reached with nix develop
+      - name: CI tools come from the lock, not the registry
+        run: |
+          if grep -rEn 'nix (run|shell) nixpkgs#' .github/workflows; then
+            echo "unpinned registry lookup in a workflow — pin the tool in the flake's dev shell and use nix develop" >&2
+            exit 1
+          fi
+      - run: nix build --no-write-lock-file .#checks.x86_64-linux.scripts-lint

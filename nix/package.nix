@@ -51,7 +51,13 @@ in
 
 stdenvNoCC.mkDerivation {
   pname = "ddlc-rofi-theme";
-  version = "1.0";
+  # The one source of version: VERSION at the repo root, asserted against CHANGELOG by CI
+  version = lib.fileContents (
+    builtins.path {
+      name = "VERSION";
+      path = ../VERSION;
+    }
+  );
 
   dontUnpack = true;
   nativeBuildInputs = [ makeWrapper ];
