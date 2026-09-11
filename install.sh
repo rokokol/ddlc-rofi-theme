@@ -31,7 +31,15 @@ usage: ./install.sh [options]
 Runtime environment (read by the installed switch, not this script):
   DDLC_ROFI_THEME_NAME  the theme's name: <name>.rasi is the link it writes (default: ddlc)
   DDLC_ROFI_THEME_DIR   where the variants live, when not next to the link
+
+Exit 0 done, 1 when the install could not be made — a dependency missing, a manifest
+that cannot be written — and 2 on a usage error.
 EOF
+}
+
+die() { # the request itself is wrong
+  printf 'install.sh: %s\n' "$1" >&2
+  exit 2
 }
 
 UNINSTALL=0
@@ -47,11 +55,14 @@ while [[ $# -gt 0 ]]; do
       exit 0
       ;;
     --prefix)
-      PREFIX="${2:?directory required by $1}"
+      # Not ${2:?}: that exits 1 with bash's own message, and a usage error is 2
+      (($# >= 2)) || die "$1 needs a directory"
+      PREFIX="$2"
       shift 2
       ;;
     --destdir)
-      DESTDIR="${2:?directory required by $1}"
+      (($# >= 2)) || die "$1 needs a directory"
+      DESTDIR="$2"
       shift 2
       ;;
     --uninstall)
@@ -60,15 +71,12 @@ while [[ $# -gt 0 ]]; do
       ;;
     *)
       usage >&2
-      exit 1
+      exit 2
       ;;
   esac
 done
 
-if [[ "$PREFIX" != /* ]]; then
-  echo "install.sh: PREFIX must be absolute: $PREFIX" >&2
-  exit 1
-fi
+[[ "$PREFIX" == /* ]] || die "PREFIX must be absolute: $PREFIX"
 
 root="${DESTDIR%/}$PREFIX"
 share_runtime="$PREFIX/share/ddlc-rofi-theme"
