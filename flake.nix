@@ -50,6 +50,10 @@
         name = "VERSION";
         path = ./VERSION;
       };
+      checkSh = builtins.path {
+        name = "check-sh.sh";
+        path = ./check-sh.sh;
+      };
       completionsDir = builtins.path {
         name = "ddlc-rofi-theme-completions";
         path = ./completions;
@@ -200,7 +204,7 @@
                 ];
               }
               ''
-                files="${switch} ${installer} ${testsDir}/run.sh ${testsDir}/installer.sh ${testsDir}/distro.sh ${testsDir}/check-completions.sh ${completionsDir}/install.sh.bash"
+                files="${switch} ${installer} ${testsDir}/run.sh ${testsDir}/installer.sh ${testsDir}/distro.sh ${checkSh} ${completionsDir}/install.sh.bash"
                 # shellcheck disable=SC2086
                 shellcheck $files
                 # shellcheck disable=SC2086
@@ -208,12 +212,13 @@
                 # zsh is not shellcheck's language; a parse is what can be checked
                 zsh -n ${completionsDir}/install.sh.zsh
 
-                # install.sh and its completions must not drift apart
-                mkdir -p repo/tests
+                # install.sh, its help and its completions must not drift apart
+                mkdir -p repo
                 cp ${installer} repo/install.sh
+                cp ${versionFile} repo/VERSION
                 cp -r ${completionsDir} repo/completions
-                cp ${testsDir}/check-completions.sh repo/tests/
-                bash repo/tests/check-completions.sh
+                cp ${checkSh} repo/check-sh.sh
+                (cd repo && bash ./check-sh.sh -c completions/install.sh.bash completions/install.sh.zsh install.sh)
                 touch $out
               '';
 
@@ -232,7 +237,8 @@
                 cp ${versionFile} repo/VERSION
                 cp -r ${dist} repo/dist
                 cp -r ${completionsDir} repo/completions
-                cp ${testsDir}/installer.sh ${testsDir}/check-completions.sh repo/tests/
+                cp ${checkSh} repo/check-sh.sh
+                cp ${testsDir}/installer.sh repo/tests/
                 chmod -R +w repo
                 chmod +x repo/install.sh repo/ddlc-rofi-theme.sh repo/tests/*.sh
                 patchShebangs repo >/dev/null

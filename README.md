@@ -153,5 +153,6 @@ ddlc-rofi-theme.sh   the light/dark switch
 dist/                the rendered theme, committed for consumers without Nix
 install.sh           for systems without Nix; VERSION is the one source of version
 completions/         tab completion for install.sh, sourced from the checkout
-tests/               run.sh (the switch), installer.sh, distro.sh, check-completions.sh
+tests/               run.sh (the switch), installer.sh, distro.sh
+check-sh.sh          holds install.sh's help and completions to its parser, vendored from bash-best-practices
 ```

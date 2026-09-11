@@ -17,7 +17,7 @@ nix flake check          # dist/ current, real rofi parses both variants, module
 nix fmt -- --ci
 ```
 
-`VERSION` is the one source of version: `nix/package.nix` reads it, `install.sh -v` prints it, CI asserts `CHANGELOG.md` has a matching heading. `install.sh` follows the huix-standard grammar; one local deviation — the switch goes into `bin/` as a **copy**, not the standard's relative symlink into `share/<name>/`, because it resolves the theme directory relative to its own location (`../share/rofi/themes`), same as the Nix package installs it. New installer flags update both `completions/` files in the same commit, or `check-completions.sh` fails the flake check
+`VERSION` is the one source of version: `nix/package.nix` reads it, `install.sh -v` prints it, CI asserts `CHANGELOG.md` has a matching heading. `install.sh` follows the huix-standard grammar; one local deviation — the switch goes into `bin/` as a **copy**, not the standard's relative symlink into `share/<name>/`, because it resolves the theme directory relative to its own location (`../share/rofi/themes`), same as the Nix package installs it. New installer flags update both `completions/` files in the same commit, or `check-sh.sh -c` fails the flake check
 
 ## Layout
 
@@ -28,7 +28,9 @@ ddlc-rofi-theme.sh   the light/dark switch
 dist/                the rendered theme, committed for consumers without Nix
 install.sh           for systems without Nix, VERSION its one source of version
 completions/         tab completion for install.sh, drift-checked against it
-tests/               run.sh (the switch), installer.sh, distro.sh, check-completions.sh
+check-sh.sh          vendored from bash-best-practices, holds install.sh's help
+                     and completions to its parser
+tests/               run.sh (the switch), installer.sh, distro.sh
 ```
 
 ## Changing a colour
