@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# Installer for ddlc-rofi-theme on systems without Nix. Projects what nix/package.nix
-# installs onto a plain prefix: the rendered theme into share/rofi/themes (a directory
-# rofi searches itself), the switch into bin as a real copy — it finds the theme
-# relative to its own location — and an install-manifest that --uninstall consumes
 set -euo pipefail
 
 here="$(cd -- "$(dirname -- "$(readlink -f "${BASH_SOURCE[0]}")")" && pwd)"
@@ -15,6 +11,11 @@ OS_RELEASE="${OS_RELEASE:-/etc/os-release}"
 usage() {
   cat <<EOF
 install ddlc-rofi-theme $VERSION into a prefix
+
+Installer for ddlc-rofi-theme on systems without Nix. Projects what nix/package.nix
+installs onto a plain prefix: the rendered theme into share/rofi/themes (a directory
+rofi searches itself), the switch into bin as a real copy — it finds the theme
+relative to its own location — and an install-manifest that --uninstall consumes
 
 The rendered theme goes to \$PREFIX/share/rofi/themes and the switch to \$PREFIX/bin.
 rofi searches that share directory itself, so the backgrounds resolve by name and
@@ -33,7 +34,7 @@ Runtime environment (read by the installed switch, not this script):
   DDLC_ROFI_THEME_DIR   where the variants live, when not next to the link
 
 Exit 0 done, 1 when the install could not be made — a dependency missing, a manifest
-that cannot be written — and 2 on a usage error.
+that cannot be written — and 2 on a usage error
 EOF
 }
 

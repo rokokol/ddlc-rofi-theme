@@ -2,10 +2,26 @@
 # Drives the switch against a throwaway config tree. Both HOME and XDG_CONFIG_HOME are
 # redirected: a session that exports XDG_CONFIG_HOME would otherwise take the test
 # straight into the live rofi config
-#
-#   tests/run.sh   check the switch
 
 set -euo pipefail
+
+usage() {
+  cat <<'EOF'
+tests/run.sh — the fast suite for ddlc-rofi-theme: drives the switch against a
+throwaway config tree
+
+  tests/run.sh
+
+DDLC_ROFI_THEME picks the switch driven (default: ddlc-rofi-theme.sh next to tests/)
+
+Nothing here reaches the network
+Exit: 0 all passed, 1 a check failed
+EOF
+}
+[[ "${1:-}" == "-h" || "${1:-}" == "--help" || "${1:-}" == "help" ]] && {
+  usage
+  exit 0
+}
 
 HERE=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 REPO=$(dirname "$HERE")
