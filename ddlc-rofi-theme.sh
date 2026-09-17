@@ -25,18 +25,20 @@ Switches rofi between the light and the dark variant by pointing one symlink at 
 them. rofi reads its theme on every launch, so there is nothing to reload — the next
 window is already the other variant
 
-  DDLC_ROFI_THEME_NAME   the theme's name: <name>.rasi is the link, <name>-light.rasi
-                         and <name>-dark.rasi are the variants it points at
-  DDLC_ROFI_THEME_DIR    where those variants live, when they are not next to the link
-
   light     point rofi at the light variant
   dark      point rofi at the dark variant
   toggle    switch to the other one
   status    print the current variant: light, dark, none or unknown
 
+Environment:
+  DDLC_ROFI_THEME_NAME   the theme's name: <name>.rasi is the link, <name>-light.rasi
+                         and <name>-dark.rasi are the variants it points at
+  DDLC_ROFI_THEME_DIR    where those variants live, when they are not next to the link
+
+In effect:
   DDLC_ROFI_THEME_NAME=$NAME
-  DDLC_ROFI_THEME_DIR=$SOURCE   where the variants are taken from
-  $LINK   the link it writes
+  DDLC_ROFI_THEME_DIR=$SOURCE
+  the link it writes: $LINK
 EOF
 }
 

@@ -9,6 +9,7 @@ Kept in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), v
 - `install.sh` now exits 2, not 1, on a usage error — an unknown flag or a relative `--prefix` — and `--help` ends with the `Exit` sentence naming every code it can produce; a missing dependency in the preflight still exits 1
 - the installer's completions are now drift-checked against `install.sh` by the vendored [bash-best-practices](https://github.com/rokokol/bash-best-practices-skill) `check-sh.sh -c`, replacing `tests/check-completions.sh`
 - `ddlc-rofi-theme.sh` and `install.sh` move their header's caller-facing paragraph into `--help`, leaving the header to editor-only rationale. `tests/run.sh -h|--help|help` and `tests/installer.sh -h|--help|help` now document the suites, including that neither reaches the network
+- `ddlc-rofi-theme --help` describes `DDLC_ROFI_THEME_NAME` and `DDLC_ROFI_THEME_DIR` once instead of twice, under an `Environment:` heading after the subcommands rather than before them, and the values in effect are reported under `In effect:` without repeating what each variable means
 
 ## [1.1.0] - 2026-09-01
 
