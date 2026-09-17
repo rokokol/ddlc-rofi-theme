@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-# Drives the switch against a throwaway config tree. Both HOME and XDG_CONFIG_HOME are
-# redirected: a session that exports XDG_CONFIG_HOME would otherwise take the test
-# straight into the live rofi config
+# Both HOME and XDG_CONFIG_HOME are redirected: a session that exports XDG_CONFIG_HOME
+# would otherwise take the test straight into the live rofi config
 
 set -euo pipefail
 
