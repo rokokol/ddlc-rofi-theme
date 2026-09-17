@@ -13,11 +13,10 @@ usage() {
 install ddlc-rofi-theme $VERSION into a prefix
 
 Installer for ddlc-rofi-theme on systems without Nix. Projects what nix/package.nix
-installs onto a plain prefix: the rendered theme into share/rofi/themes (a directory
-rofi searches itself), the switch into bin as a real copy — it finds the theme
-relative to its own location — and an install-manifest that --uninstall consumes
+installs onto a plain prefix: the rendered theme into \$PREFIX/share/rofi/themes, the
+switch into \$PREFIX/bin as a real copy — it finds the theme relative to its own
+location — and an install-manifest that --uninstall consumes
 
-The rendered theme goes to \$PREFIX/share/rofi/themes and the switch to \$PREFIX/bin.
 rofi searches that share directory itself, so the backgrounds resolve by name and
 nothing has to be pathed. Then name the theme in ~/.config/rofi/config.rasi
 ("rofi.theme: ddlc") and pick a variant: ddlc-rofi-theme light
