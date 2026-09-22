@@ -13,7 +13,7 @@
 }:
 
 let
-  # The same half-step offset grid the site's tile uses, as one SVG instead of 30 hand-placed circles
+  # The same half-step offset grid the site's tile uses, as one SVG rather than 30 circles
   polkaSvg =
     {
       ground,
