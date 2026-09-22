@@ -16,7 +16,7 @@
       ddlc-palette,
     }:
     let
-      lib = nixpkgs.lib;
+      inherit (nixpkgs) lib;
       systems = [
         "x86_64-linux"
         "aarch64-linux"
@@ -120,9 +120,9 @@
           theme-parses =
             pkgs.runCommand "theme-parses"
               {
-                nativeBuildInputs = [
-                  pkgs.rofi
-                  pkgs.gnugrep
+                nativeBuildInputs = with pkgs; [
+                  rofi
+                  gnugrep
                 ];
               }
               ''
@@ -158,7 +158,7 @@
             in
             pkgs.runCommand "module-wiring"
               {
-                nativeBuildInputs = [ pkgs.jq ];
+                nativeBuildInputs = with pkgs; [ jq ];
                 dump = builtins.toJSON wiring;
                 passAsFile = [ "dump" ];
               }
@@ -197,15 +197,15 @@
           scripts-lint =
             pkgs.runCommand "scripts-lint"
               {
-                nativeBuildInputs = [
+                nativeBuildInputs = with pkgs; [
                   # check-sh.sh below is moving to reading the script it is given as a tree,
                   # out of `shfmt --to-json`, with jq flattening that tree into rows. This
                   # sandbox has a scrubbed PATH, so the dev shell's jq is not reachable here
                   # and the tool has to be named on this derivation
-                  pkgs.jq
-                  pkgs.shellcheck
-                  pkgs.shfmt
-                  pkgs.zsh
+                  jq
+                  shellcheck
+                  shfmt
+                  zsh
                 ];
               }
               ''
@@ -233,10 +233,10 @@
             pkgs.runCommand "installer-suite"
               {
                 # tests/installer.sh builds a deliberately install(1)-less PATH of these
-                nativeBuildInputs = [
-                  pkgs.coreutils
-                  pkgs.jq
-                  pkgs.shfmt
+                nativeBuildInputs = with pkgs; [
+                  coreutils
+                  jq
+                  shfmt
                 ];
               }
               ''

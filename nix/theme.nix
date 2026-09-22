@@ -195,7 +195,7 @@ in
 {
   polkaLight = polkaSvg {
     ground = palette.paper;
-    dot = palette.dot;
+    inherit (palette) dot;
   };
 
   polkaDark = polkaSvg {
