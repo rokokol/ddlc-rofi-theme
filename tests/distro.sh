@@ -157,7 +157,7 @@ if ((rc != 0)); then
         # AUR counts as official on Arch, but paru itself lives in the AUR, so a base
         # container has no way to have it — the one arm whose printed line cannot run.
         # Its documented equivalent: base-devel, a throwaway builder (makepkg refuses
-        # root, and its own sudo calls would hit our shim), the package's depends read
+        # root, and its own sudo calls would hit the shim), the package's depends read
         # from its PKGBUILD and installed by pacman, makepkg without -si, pacman -U
         pacman -S --noconfirm --needed base-devel git >/dev/null
         id builder >/dev/null 2>&1 || useradd -m builder
