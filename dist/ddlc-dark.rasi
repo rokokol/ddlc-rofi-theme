@@ -14,8 +14,8 @@ window {
   border-radius: 28px;
   dynamic: true;
   padding: 18px;
-  background-color: #361B39;
-  background-image: url("ddlc-polka-dark.svg", both);
+  background-color: #222222;
+  background-image: url("ddlc-polka-dark.svg", width);
 }
 
 inputbar {
@@ -35,7 +35,8 @@ prompt {
 }
 
 entry {
-  placeholder: "Okay, everyone!";
+  placeholder: "<span font='Doki,Nunito 13 @wght=900'>Okay, everyone!</span>";
+  placeholder-markup: true;
   placeholder-color: rgba(255, 219, 240, 0.5);
   text-color: #FFDBF0;
 }
@@ -96,15 +97,16 @@ element alternate {
 }
 
 message {
-  margin: 8px 10px 0px 10px;
-  padding: 10px 14px;
-  background-color: rgba(108, 70, 129, 0.77);
+  margin: 0px 6px 12px 6px;
+  padding: 50px 16px 16px 16px;
+  background-color: #222222;
+  background-image: url("ddlc-window-dark.svg", width);
   border: 1px;
-  border-color: rgba(221, 119, 187, 0.45);
-  border-radius: 16px;
+  border-color: #6C4681;
+  border-radius: 0px;
 }
 
 textbox {
-  text-color: #DD77BB;
+  text-color: #FFBDE1;
   font: "monospace 12";
 }

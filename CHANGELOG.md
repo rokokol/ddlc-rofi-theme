@@ -7,11 +7,17 @@ Kept in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), v
 ### Added
 
 - `rowFont` sets the rows apart from the window; it defaults to `font`
+- `headingFont` sets the placeholder and, unless `promptFont` is set, the prompt
+- `title`, what the message's title bar says after its prompt: user@host in the Home Manager module, the user alone outside NixOS, nothing in `dist/`
+- `lib.roles`, the roles of ddlc-themes as the theme reads them. `lib.theme` takes them already, and `roles` passed to it win
+- `ddlc-window-light.svg` and `ddlc-window-dark.svg`, the message's title bar, deployed and installed next to the backgrounds
 
 ### Changed
 
+- the background is the polka-dot paper of [ddlc-themes](https://github.com/rokokol/ddlc-themes), the one the Obsidian theme draws, at its own size on a scaled screen too. The dark variant now lies on ink with dim violet dots, where it was violet with brighter ones
+- the message under the search line is a small kitty window, as a code block is in the Obsidian theme: square, dark in both variants, with a title bar that carries a prompt
 - the rows are now set in `font`, Nunito Medium by default, and `monoFont` sets only the message under the search line. Set `rowFont` to keep monospace rows
-- the prompt now defaults to Doki where it is installed and Nunito Black otherwise, at 13, where it followed `font`
+- the prompt and the placeholder now default to Doki where it is installed and Nunito Black otherwise, at 13, where they followed `font`
 - the weekly lock bump renders `dist/` again from the new palette and lands both together, so a colour that moved upstream reaches the theme without a hand and without a pull request. `palette-drift.yml`, which opened that pull request, is removed
 
 ## [1.2.0] - 2026-10-09

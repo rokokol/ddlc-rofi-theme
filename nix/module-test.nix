@@ -24,6 +24,10 @@ let
           type = lib.types.listOf lib.types.package;
           default = [ ];
         };
+        home.username = lib.mkOption {
+          type = lib.types.str;
+          default = "test";
+        };
         home.activation = lib.mkOption {
           type = lib.types.attrsOf lib.types.unspecified;
           default = { };
@@ -53,8 +57,8 @@ let
       };
     };
 
-  eval =
-    user:
+  evalWith =
+    extraArgs: user:
     (lib.evalModules {
       modules = [
         stubs
@@ -64,10 +68,14 @@ let
       specialArgs = {
         inherit pkgs;
         lib = hmLib;
-      };
+      }
+      // extraArgs;
     }).config;
+  eval = evalWith { };
 
   on = eval { ddlc.rofi.enable = true; };
+  # Home Manager as a NixOS module hands the system's configuration in as osConfig
+  inNixos = evalWith { osConfig.networking.hostName = "club"; } { ddlc.rofi.enable = true; };
   named = eval {
     ddlc.rofi = {
       enable = true;
@@ -93,6 +101,9 @@ in
   namedFiles = lib.attrNames named.xdg.configFile;
   # Every deployed file has to come out of the package, or the link points at nothing
   sources = lib.mapAttrsToList (_: v: toString v.source) on.xdg.configFile;
+
+  title = on.ddlc.rofi.title;
+  nixosTitle = inNixos.ddlc.rofi.title;
 
   theme = on.programs.rofi.theme;
   namedTheme = named.programs.rofi.theme;

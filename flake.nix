@@ -7,6 +7,11 @@
       url = "github:rokokol/ddlc-palette";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ddlc-themes = {
+      url = "github:rokokol/ddlc-themes";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.ddlc-palette.follows = "ddlc-palette";
+    };
   };
 
   outputs =
@@ -14,6 +19,7 @@
       self,
       nixpkgs,
       ddlc-palette,
+      ddlc-themes,
     }:
     let
       inherit (nixpkgs) lib;
@@ -28,6 +34,9 @@
       palette = ddlc-palette.lib.palette // {
         inherit (ddlc-palette.lib) rgba;
       };
+
+      # The roles every DDLC surface shares, as hexes per variant, and the paper's grid
+      roles = builtins.fromJSON (builtins.readFile ddlc-themes.lib.roles);
 
       # Each piece isolated, so a README edit doesn't rebuild anything
       switch = builtins.path {
@@ -62,7 +71,7 @@
     {
       packages = forAllSystems (pkgs: rec {
         default = ddlc-rofi-theme;
-        ddlc-rofi-theme = pkgs.callPackage ./nix/package.nix { inherit palette; };
+        ddlc-rofi-theme = pkgs.callPackage ./nix/package.nix { inherit palette roles; };
       });
 
       # homeModules is the name the flake schema knows; homeManagerModules is what most
@@ -72,8 +81,9 @@
 
       # The theme as plain data, for a consumer that wants to render it itself
       lib = {
-        theme = import ./nix/theme.nix;
-        inherit palette;
+        # The roles come filled in, so a caller passes palette alone, as before
+        theme = args: import ./nix/theme.nix ({ inherit roles; } // args);
+        inherit palette roles;
       };
 
       # For a consumer who reaches for pkgs rather than this flake's packages directly
@@ -175,8 +185,15 @@
                 # theme file, so the backgrounds have to be deployed next to the variants
                 want '.files | index("rofi/themes/ddlc-polka-light.svg")' "the light background is not deployed"
                 want '.files | index("rofi/themes/ddlc-polka-dark.svg")' "the dark background is not deployed"
-                want '[.sources[] | select(test("/nix/store/.*ddlc-rofi-theme"))] | length == 4' \
+                want '.files | index("rofi/themes/ddlc-window-light.svg")' "the light message window is not deployed"
+                want '.files | index("rofi/themes/ddlc-window-dark.svg")' "the dark message window is not deployed"
+                want '[.sources[] | select(test("/nix/store/.*ddlc-rofi-theme"))] | length == 6' \
                   "a deployed file does not come from the package"
+
+                # The title bar names the user, and the host where the system's configuration
+                # is at hand
+                want '.title == "test"' "the title is not the user outside NixOS"
+                want '.nixosTitle == "test@club"' "the title is not user@host under NixOS"
 
                 want '.theme == "ddlc"' "the theme is not named in the rofi config"
                 want '.namedFiles | index("rofi/themes/doki-light.rasi")' "the name does not reach the variants"

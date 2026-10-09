@@ -17,9 +17,9 @@
 
 </div>
 
-Rounded translucent rows on the game's own polka-dot background, in both a light and a dark variant, plus a simple switch between them
+Rounded translucent rows on the game's own polka-dot background, with the message in a small kitty window, in both a light and a dark variant, plus a simple switch between them
 
-Every colour is a measured one out of [ddlc-palette](https://github.com/rokokol/ddlc-palette), which reads them off [ddlc.moe](https://ddlc.moe) — nothing here is eyeballed. The two variants share one layout and differ only in which palette keys fill it
+Every colour is a measured one out of [ddlc-palette](https://github.com/rokokol/ddlc-palette), which reads them off [ddlc.moe](https://ddlc.moe) — nothing here is eyeballed. The two variants share one layout and differ only in which palette keys fill it. The polka-dot paper and the window come from the roles of [ddlc-themes](https://github.com/rokokol/ddlc-themes), so the dots and the code window are the same as in the [Obsidian theme](https://github.com/rokokol/ddlc-obsidian-theme)
 
 Came over from my rice, **[rokokol/huix](https://github.com/rokokol/huix)**
 
@@ -70,10 +70,12 @@ That deploys both variants, names the theme in your rofi config and picks one th
 | `default` | the variant the first activation picks | `light` |
 | `width` | window width, in any unit rofi takes | `720px` |
 | `font` | the font the window is set in | `programs.rofi.font` |
-| `promptFont` | the font of the prompt alone, which is usually an emoji | Doki if installed, else Nunito Black |
+| `headingFont` | the font of the placeholder, and of the prompt unless `promptFont` is set | Doki if installed, else Nunito Black |
+| `promptFont` | the font of the prompt alone, which is usually an emoji | `headingFont` |
 | `rowFont` | the font the rows are set in | `font` |
 | `monoFont` | the font of the message under the search line | `monospace 12` |
 | `placeholder` | what the empty search line says | `Okay, everyone!` |
+| `title` | what the message's title bar says after its prompt; null leaves the prompt alone | user@host, or the user outside NixOS |
 
 ### Any other distribution
 
@@ -106,7 +108,7 @@ Package recipes can stage the same layout without duplicating it: `DESTDIR="$pkg
 
 ### The fonts are not in here
 
-The theme asks for three faces and ships none of them — a theme has no business installing fonts. The window and the rows are set in [Nunito](https://github.com/googlefonts/nunito) Medium, the message in `monospace`, and the prompt in **Doki**, a font by 538Fonts that is free for personal use only (see [ASSETS.md](ASSETS.md)). Where Doki is not installed, the prompt is Nunito Black; that takes the variable Nunito, which Google Fonts and most distributions ship. When Nunito is missing, fontconfig picks its default face. Point the font options at whatever you have
+The theme asks for three faces and ships none of them — a theme has no business installing fonts. The window and the rows are set in [Nunito](https://github.com/googlefonts/nunito) Medium, the message in `monospace`, and the prompt and the placeholder in **Doki**, a font by 538Fonts that is free for personal use only (see [ASSETS.md](ASSETS.md)). Where Doki is not installed, they are Nunito Black; that takes the variable Nunito, which Google Fonts and most distributions ship. When Nunito is missing, fontconfig picks its default face. Point the font options at whatever you have
 
 ## The switch
 
@@ -127,10 +129,10 @@ Where it looks for the variants, in order: next to the link, then `DDLC_ROFI_THE
 
 ## How rofi finds it
 
-Two lookups, both rofi's own, and neither needs a path:
+Both lookups are rofi's own, and neither needs a path:
 
 - `rofi.theme: ddlc` resolves against `${XDG_CONFIG_HOME}/rofi/themes/`, among others — that is what the symlink is doing there
-- `background-image: url("ddlc-polka-light.svg")` is looked up in the **same flat directory**, not relative to the theme file that names it. So the two backgrounds have to be deployed next to the variants, and they carry the theme's name to keep out of another theme's way
+- `background-image: url("ddlc-polka-light.svg")` is looked up in the **same flat directory**, not relative to the theme file that names it. So the images have to be deployed next to the variants, and they carry the theme's name to keep out of another theme's way
 
 ## Tests
 

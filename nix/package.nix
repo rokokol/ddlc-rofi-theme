@@ -10,15 +10,19 @@
   coreutils,
   # ddlc-palette's flat attrset plus its rgba helper — the flake passes it in
   palette,
+  # ddlc-themes' roles and paper, read out of its JSON — the flake passes it in too
+  roles,
   # Baked into the generated rasi rather than read at runtime: rofi has no variables,
   # so every setting is a rebuild either way
   themeName ? "ddlc",
   width ? null,
   font ? null,
+  headingFont ? null,
   promptFont ? null,
   rowFont ? null,
   monoFont ? null,
   placeholder ? null,
+  title ? null,
 }:
 
 let
@@ -32,14 +36,16 @@ let
     inherit
       width
       font
+      headingFont
       promptFont
       rowFont
       monoFont
       placeholder
+      title
       ;
   };
 
-  theme = import ./theme.nix ({ inherit palette; } // settings);
+  theme = import ./theme.nix ({ inherit palette roles; } // settings);
 
   files = {
     "${themeName}-light.rasi" = theme.light;
@@ -48,6 +54,8 @@ let
     # rofi resolves a bare image name in the same flat directory every theme shares
     "ddlc-polka-light.svg" = theme.polkaLight;
     "ddlc-polka-dark.svg" = theme.polkaDark;
+    "ddlc-window-light.svg" = theme.windowLight;
+    "ddlc-window-dark.svg" = theme.windowDark;
   };
 in
 

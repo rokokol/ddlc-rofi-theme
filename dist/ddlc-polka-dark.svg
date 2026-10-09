@@ -1,42 +1,10 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 520" preserveAspectRatio="xMidYMid slice">
-  <rect width="720" height="520" fill="#361B39" />
-
-  <g fill="#6C4681">
-<circle cx="55" cy="38" r="19" />
-<circle cx="195" cy="38" r="19" />
-<circle cx="335" cy="38" r="19" />
-<circle cx="475" cy="38" r="19" />
-<circle cx="615" cy="38" r="19" />
-<circle cx="755" cy="38" r="19" />
-<circle cx="125" cy="128" r="19" />
-<circle cx="265" cy="128" r="19" />
-<circle cx="405" cy="128" r="19" />
-<circle cx="545" cy="128" r="19" />
-<circle cx="685" cy="128" r="19" />
-<circle cx="825" cy="128" r="19" />
-<circle cx="55" cy="218" r="19" />
-<circle cx="195" cy="218" r="19" />
-<circle cx="335" cy="218" r="19" />
-<circle cx="475" cy="218" r="19" />
-<circle cx="615" cy="218" r="19" />
-<circle cx="755" cy="218" r="19" />
-<circle cx="125" cy="308" r="19" />
-<circle cx="265" cy="308" r="19" />
-<circle cx="405" cy="308" r="19" />
-<circle cx="545" cy="308" r="19" />
-<circle cx="685" cy="308" r="19" />
-<circle cx="825" cy="308" r="19" />
-<circle cx="55" cy="398" r="19" />
-<circle cx="195" cy="398" r="19" />
-<circle cx="335" cy="398" r="19" />
-<circle cx="475" cy="398" r="19" />
-<circle cx="615" cy="398" r="19" />
-<circle cx="755" cy="398" r="19" />
-<circle cx="125" cy="488" r="19" />
-<circle cx="265" cy="488" r="19" />
-<circle cx="405" cy="488" r="19" />
-<circle cx="545" cy="488" r="19" />
-<circle cx="685" cy="488" r="19" />
-<circle cx="825" cy="488" r="19" />
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="120">
+  <defs>
+    <pattern id="paper" width="120" height="120" patternUnits="userSpaceOnUse">
+      <circle cx="30" cy="30" r="24" fill="#311D33" />
+      <circle cx="90" cy="90" r="24" fill="#311D33" />
+    </pattern>
+  </defs>
+  <rect width="720" height="120" fill="#222222" />
+  <rect width="720" height="120" fill="url(#paper)" />
 </svg>

@@ -6,12 +6,16 @@
   config,
   lib,
   pkgs,
+  # The system's configuration when Home Manager runs as a NixOS module, null otherwise
+  osConfig,
   ...
 }:
 
 let
   cfg = config.ddlc.rofi;
   themes = "rofi/themes";
+
+  host = if osConfig == null then null else osConfig.networking.hostName or null;
 
   # The variants are deployed into ~/.config rather than linked from the store, so the
   # switch's symlink survives a garbage collection
@@ -30,10 +34,12 @@ in
         inherit (cfg)
           width
           font
+          headingFont
           promptFont
           rowFont
           monoFont
           placeholder
+          title
           ;
       };
       defaultText = lib.literalExpression "ddlc-rofi-theme carrying the settings below";
@@ -76,14 +82,21 @@ in
       description = "The font the window is set in. Defaults to `Nunito Medium 12`";
     };
 
-    promptFont = lib.mkOption {
+    headingFont = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
       example = "Doki 13";
       description = ''
-        The font of the prompt alone, which is usually an emoji. Defaults to Doki where it
-        is installed and Nunito Black otherwise, at 13
+        The font of the placeholder, and of the prompt unless `promptFont` is set. Defaults
+        to Doki where it is installed and Nunito Black otherwise, at 13
       '';
+    };
+
+    promptFont = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "Doki 13";
+      description = "The font of the prompt alone, which is usually an emoji. Defaults to `headingFont`";
     };
 
     rowFont = lib.mkOption {
@@ -106,26 +119,46 @@ in
       example = "Okay, everyone!";
       description = "What the empty search line says";
     };
+
+    title = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = if host == null then config.home.username else "${config.home.username}@${host}";
+      defaultText = lib.literalExpression ''"''${config.home.username}@''${osConfig.networking.hostName}"'';
+      example = "monika@club";
+      description = ''
+        What the message's title bar says after its prompt. Defaults to user@host, or the
+        user alone when Home Manager does not run as a NixOS module. Null leaves the prompt
+        alone on the bar
+      '';
+    };
   };
 
-  config = lib.mkIf cfg.enable {
-    home.packages = [ cfg.package ];
+  config = lib.mkMerge [
+    # The module system looks a missing argument up here and ignores its default, so a
+    # standalone Home Manager needs this. Under NixOS the real osConfig takes precedence
+    { _module.args.osConfig = lib.mkDefault null; }
 
-    xdg.configFile =
-      deploy "${cfg.name}-light.rasi"
-      // deploy "${cfg.name}-dark.rasi"
-      # rofi resolves a bare image name against this directory, so the backgrounds
-      # have to land in it too
-      // deploy "ddlc-polka-light.svg"
-      // deploy "ddlc-polka-dark.svg";
+    (lib.mkIf cfg.enable {
+      home.packages = [ cfg.package ];
 
-    programs.rofi.theme = lib.mkDefault cfg.name;
+      xdg.configFile =
+        deploy "${cfg.name}-light.rasi"
+        // deploy "${cfg.name}-dark.rasi"
+        # rofi resolves a bare image name against this directory, so the backgrounds
+        # have to land in it too
+        // deploy "ddlc-polka-light.svg"
+        // deploy "ddlc-polka-dark.svg"
+        // deploy "ddlc-window-light.svg"
+        // deploy "ddlc-window-dark.svg";
 
-    # After linkGeneration, or the variants it points at are not in ~/.config yet
-    home.activation.ddlc-rofi-theme = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-      if [ ! -e "${config.xdg.configHome}/${themes}/${cfg.name}.rasi" ]; then
-        run ${lib.getExe cfg.package} ${cfg.default}
-      fi
-    '';
-  };
+      programs.rofi.theme = lib.mkDefault cfg.name;
+
+      # After linkGeneration, or the variants it points at are not in ~/.config yet
+      home.activation.ddlc-rofi-theme = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
+        if [ ! -e "${config.xdg.configHome}/${themes}/${cfg.name}.rasi" ]; then
+          run ${lib.getExe cfg.package} ${cfg.default}
+        fi
+      '';
+    })
+  ];
 }

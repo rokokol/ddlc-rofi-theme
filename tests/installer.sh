@@ -66,6 +66,8 @@ run >/dev/null 2>&1
 [[ -f "$prefix/share/rofi/themes/ddlc-dark.rasi" ]] || die "dark variant missing"
 [[ -f "$prefix/share/rofi/themes/ddlc-polka-light.svg" ]] || die "light background missing"
 [[ -f "$prefix/share/rofi/themes/ddlc-polka-dark.svg" ]] || die "dark background missing"
+[[ -f "$prefix/share/rofi/themes/ddlc-window-light.svg" ]] || die "light message window missing"
+[[ -f "$prefix/share/rofi/themes/ddlc-window-dark.svg" ]] || die "dark message window missing"
 [[ -x "$prefix/bin/ddlc-rofi-theme" ]] || die "switch missing from bin"
 [[ ! -L "$prefix/bin/ddlc-rofi-theme" ]] ||
   die "the switch is a symlink — it must be a copy to find the theme from its location"
