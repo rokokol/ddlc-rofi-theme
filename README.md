@@ -105,7 +105,7 @@ Package recipes can stage the same layout without duplicating it: `DESTDIR="$pkg
 
 ### The fonts are not in here
 
-The screenshots are set in **Doki**, the game's own face, and the rows in [DepartureMono](https://departuremono.com). Neither is shipped — a theme has no business installing fonts, and Doki is copyrighted besides. Out of the box the defaults are `sans-serif` and `monospace`; point `font` and `monoFont` at whatever you have
+The screenshots are set in **Doki**, the game's own face, and the rows in [DepartureMono](https://departuremono.com). Neither is shipped — a theme has no business installing fonts, and Doki is copyrighted besides. Out of the box the window is set in [Nunito](https://github.com/googlefonts/nunito) Medium and the rows in `monospace`; when Nunito is not installed, fontconfig picks its default face in the same weight. Point `font` and `monoFont` at whatever you have
 
 ## The switch
 

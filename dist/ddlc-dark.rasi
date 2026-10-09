@@ -3,7 +3,7 @@
   text-color: #FFDBF0;
   margin: 0px;
   padding: 0px;
-  font: "sans-serif 12";
+  font: "Nunito Medium 12";
 }
 
 window {
@@ -31,7 +31,7 @@ inputbar {
 prompt {
   text-color: #DD77BB;
   margin: 0px 12px 0px 0px;
-  font: "sans-serif 12";
+  font: "Nunito Medium 12";
 }
 
 entry {

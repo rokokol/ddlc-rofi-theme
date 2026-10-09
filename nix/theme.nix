@@ -6,7 +6,7 @@
 {
   palette,
   width ? "720px",
-  font ? "sans-serif 12",
+  font ? "Nunito Medium 12",
   promptFont ? font,
   monoFont ? "monospace 12",
   placeholder ? "Okay, everyone!",

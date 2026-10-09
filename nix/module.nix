@@ -72,7 +72,7 @@ in
       default = config.programs.rofi.font;
       defaultText = lib.literalExpression "config.programs.rofi.font";
       example = "Doki 12";
-      description = "The font the window is set in. Defaults to `sans-serif 12`";
+      description = "The font the window is set in. Defaults to `Nunito Medium 12`";
     };
 
     promptFont = lib.mkOption {

@@ -2,6 +2,12 @@
 
 Kept in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioned by [semver](https://semver.org/spec/v2.0.0.html)
 
+## [Unreleased]
+
+### Changed
+
+- the window font now defaults to `Nunito Medium 12`, not `sans-serif 12`; without Nunito installed, fontconfig falls back to its default face in the same weight, and `font` still overrides it
+
 ## [1.1.1] - 2026-09-21
 
 ### Changed
