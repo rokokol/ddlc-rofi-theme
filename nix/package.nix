@@ -16,6 +16,7 @@
   width ? null,
   font ? null,
   promptFont ? null,
+  rowFont ? null,
   monoFont ? null,
   placeholder ? null,
 }:
@@ -32,6 +33,7 @@ let
       width
       font
       promptFont
+      rowFont
       monoFont
       placeholder
       ;

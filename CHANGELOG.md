@@ -4,8 +4,14 @@ Kept in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), v
 
 ## [Unreleased]
 
+### Added
+
+- `rowFont` sets the rows apart from the window; it defaults to `font`
+
 ### Changed
 
+- the rows are now set in `font`, Nunito Medium by default, and `monoFont` sets only the message under the search line. Set `rowFont` to keep monospace rows
+- the prompt now defaults to Doki where it is installed and Nunito Black otherwise, at 13, where it followed `font`
 - the weekly lock bump renders `dist/` again from the new palette and lands both together, so a colour that moved upstream reaches the theme without a hand and without a pull request. `palette-drift.yml`, which opened that pull request, is removed
 
 ## [1.2.0] - 2026-10-09

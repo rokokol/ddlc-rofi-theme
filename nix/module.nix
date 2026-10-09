@@ -31,6 +31,7 @@ in
           width
           font
           promptFont
+          rowFont
           monoFont
           placeholder
           ;
@@ -79,14 +80,24 @@ in
       type = lib.types.nullOr lib.types.str;
       default = null;
       example = "Doki 13";
-      description = "The font of the prompt alone, which is usually an emoji. Defaults to `font`";
+      description = ''
+        The font of the prompt alone, which is usually an emoji. Defaults to Doki where it
+        is installed and Nunito Black otherwise, at 13
+      '';
+    };
+
+    rowFont = lib.mkOption {
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "DepartureMono Nerd Font Mono 12";
+      description = "The font the rows are set in. Defaults to `font`";
     };
 
     monoFont = lib.mkOption {
       type = lib.types.nullOr lib.types.str;
       default = null;
       example = "DepartureMono Nerd Font Mono 12";
-      description = "The font the rows and messages are set in. Defaults to `monospace 12`";
+      description = "The font of the message under the search line. Defaults to `monospace 12`";
     };
 
     placeholder = lib.mkOption {

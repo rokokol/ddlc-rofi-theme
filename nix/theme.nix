@@ -7,7 +7,11 @@
   palette,
   width ? "720px",
   font ? "Nunito Medium 12",
-  promptFont ? font,
+  # Pango puts a weight on every family in a list, so "Doki, Nunito Black" would draw Doki
+  # in synthetic bold. An axis value reaches only a font that has the axis: Doki has none
+  # and stays as drawn, the variable Nunito becomes Black
+  promptFont ? "Doki,Nunito 13 @wght=900",
+  rowFont ? font,
   monoFont ? "monospace 12",
   placeholder ? "Okay, everyone!",
 }:
@@ -156,7 +160,7 @@ let
         horizontal-align: 0;
         vertical-align: 0.5;
         text-color: ${hex text};
-        font: "${monoFont}";
+        font: "${rowFont}";
       }
 
       element selected {

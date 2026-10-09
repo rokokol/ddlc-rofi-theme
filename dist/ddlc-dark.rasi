@@ -31,7 +31,7 @@ inputbar {
 prompt {
   text-color: #DD77BB;
   margin: 0px 12px 0px 0px;
-  font: "Nunito Medium 12";
+  font: "Doki,Nunito 13 @wght=900";
 }
 
 entry {
@@ -74,7 +74,7 @@ element-text {
   horizontal-align: 0;
   vertical-align: 0.5;
   text-color: #FFDBF0;
-  font: "monospace 12";
+  font: "Nunito Medium 12";
 }
 
 element selected {
