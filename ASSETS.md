@@ -15,7 +15,7 @@ The following are derived from official DDLC material:
 
 No official image file is redistributed. `docs/*.png` are screenshots of my own launcher
 
-The `Doki` font family is Team Salvato's and is **not** shipped here; the theme asks for a font you already have
+The `Doki` font family is a font by 538Fonts from 2015, which is not part of the game. It is free for personal use only and is **not** shipped here; the theme asks for a font you already have
 
 Use here follows [Team Salvato's IP guidelines](https://teamsalvato.com/ip-guidelines): this is non-commercial fan content, nothing containing official assets is sold, and no claim of affiliation is made. If you reuse any of it, the same conditions apply to you
 
