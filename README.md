@@ -6,6 +6,7 @@
 
 ![rofi](https://img.shields.io/badge/rofi-theme-F4A100?style=flat)
 ![Nix](https://img.shields.io/badge/Nix-flake-7EBAE4?style=flat&logo=nixos&logoColor=white)
+[![FlakeHub](https://img.shields.io/endpoint?url=https://flakehub.com/f/rokokol/ddlc-rofi-theme/badge)](https://flakehub.com/flake/rokokol/ddlc-rofi-theme)
 [![palette](https://img.shields.io/badge/colours-ddlc--palette-FF80C0?style=flat)](https://github.com/rokokol/ddlc-palette)
 [![assets](https://img.shields.io/badge/assets-Team_Salvato-FF80C0?style=flat)](ASSETS.md)
 [![license](https://img.shields.io/badge/code-MIT-3DA639?style=flat)](LICENSE)
