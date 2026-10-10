@@ -2,6 +2,12 @@
 
 Kept in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioned by [semver](https://semver.org/spec/v2.0.0.html)
 
+## [Unreleased]
+
+### Fixed
+
+- the text typed into the search line is now set in `headingFont`, as the placeholder is, where it followed `font`
+
 ## [1.3.0] - 2026-10-10
 
 ### Added

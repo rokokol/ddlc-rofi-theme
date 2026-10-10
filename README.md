@@ -70,7 +70,7 @@ That deploys both variants, names the theme in your rofi config and picks one th
 | `default` | the variant the first activation picks | `light` |
 | `width` | window width, in any unit rofi takes | `720px` |
 | `font` | the font the window is set in | `programs.rofi.font` |
-| `headingFont` | the font of the placeholder, and of the prompt unless `promptFont` is set | Doki if installed, else Nunito Black |
+| `headingFont` | the font of the search line and its placeholder, and of the prompt unless `promptFont` is set | Doki if installed, else Nunito Black |
 | `promptFont` | the font of the prompt alone, which is usually an emoji | `headingFont` |
 | `rowFont` | the font the rows are set in | `font` |
 | `monoFont` | the font of the message under the search line | `monospace 12` |
@@ -108,7 +108,7 @@ Package recipes can stage the same layout without duplicating it: `DESTDIR="$pkg
 
 ### The fonts are not in here
 
-The theme asks for three faces and ships none of them — a theme has no business installing fonts. The window and the rows are set in [Nunito](https://github.com/googlefonts/nunito) Medium, the message in `monospace`, and the prompt and the placeholder in **Doki**, a font by 538Fonts that is free for personal use only (see [ASSETS.md](ASSETS.md)). Where Doki is not installed, they are Nunito Black; that takes the variable Nunito, which Google Fonts and most distributions ship. When Nunito is missing, fontconfig picks its default face. Point the font options at whatever you have
+The theme asks for three faces and ships none of them — a theme has no business installing fonts. The window and the rows are set in [Nunito](https://github.com/googlefonts/nunito) Medium, the message in `monospace`, and the prompt and the search line in **Doki**, a font by 538Fonts that is free for personal use only (see [ASSETS.md](ASSETS.md)). Where Doki is not installed, they are Nunito Black; that takes the variable Nunito, which Google Fonts and most distributions ship. When Nunito is missing, fontconfig picks its default face. Point the font options at whatever you have
 
 ## The switch
 

@@ -10,7 +10,8 @@
   roles,
   width ? "720px",
   font ? "Nunito Medium 12",
-  # The face of the prompt and the placeholder. Pango puts a weight on every family in a
+  # The face of the prompt and the search line. rofi draws the placeholder in the entry's
+  # own layout, so the entry's font covers it too. Pango puts a weight on every family in a
   # list, so "Doki, Nunito Black" would draw Doki in synthetic bold. An axis value reaches
   # only a font that has the axis: Doki has none and stays as drawn, the variable Nunito
   # becomes Black
@@ -198,7 +199,8 @@ let
       }
 
       entry {
-        placeholder: "<span font='${escapeXml headingFont}'>${escapeXml placeholder}</span>";
+        font: "${headingFont}";
+        placeholder: "${escapeXml placeholder}";
         placeholder-markup: true;
         placeholder-color: ${rgba text placeholderAlpha};
         text-color: ${hex text};

@@ -87,8 +87,9 @@ in
       default = null;
       example = "Doki 13";
       description = ''
-        The font of the placeholder, and of the prompt unless `promptFont` is set. Defaults
-        to Doki where it is installed and Nunito Black otherwise, at 13
+        The font of the search line and its placeholder, and of the prompt unless
+        `promptFont` is set. Defaults to Doki where it is installed and Nunito Black
+        otherwise, at 13
       '';
     };
 

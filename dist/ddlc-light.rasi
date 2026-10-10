@@ -35,7 +35,8 @@ prompt {
 }
 
 entry {
-  placeholder: "<span font='Doki,Nunito 13 @wght=900'>Okay, everyone!</span>";
+  font: "Doki,Nunito 13 @wght=900";
+  placeholder: "Okay, everyone!";
   placeholder-markup: true;
   placeholder-color: rgba(34, 34, 34, 0.5);
   text-color: #222222;
