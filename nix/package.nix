@@ -56,6 +56,8 @@ let
     "ddlc-polka-dark.svg" = theme.polkaDark;
     "ddlc-window-light.svg" = theme.windowLight;
     "ddlc-window-dark.svg" = theme.windowDark;
+    "ddlc-error-light.svg" = theme.errorLight;
+    "ddlc-error-dark.svg" = theme.errorDark;
   };
 in
 

@@ -104,8 +104,11 @@ let
     h = 300;
   };
 
+  # What the error's title bar says after its prompt
+  errorTitle = "error!";
+
   windowSvg =
-    variant:
+    variant: label:
     let
       r = roles.${variant};
       w = toString windowCanvas.w;
@@ -117,7 +120,7 @@ let
       promptY = toString (msgMargin.top + bar / 2);
       size = toString em;
       # Two columns after the prompt, as the language stands in the Obsidian bar
-      titleText = if title == "" then "" else " ${escapeXml title}";
+      titleText = if label == "" then "" else " ${escapeXml label}";
     in
     ''
       <svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">
@@ -140,6 +143,10 @@ let
 
   # Every colour below is a palette key, so a set reads as a list of names. The ground is
   # the paper's, so the window reads the same before its image is drawn
+  #
+  # A failed command opens a view of its own, with error-message as the window's only
+  # child. So the error is the same small window as the message, with errorTitle on its
+  # bar and without the gap that the message keeps for the rows below it
   rasi =
     {
       variant,
@@ -261,7 +268,7 @@ let
         background-color: ${rgba alt altAlpha};
       }
 
-      message {
+      message, error-message {
         margin: ${px msgMargin.top} ${px msgMargin.right} ${px msgMargin.bottom} ${px msgMargin.left};
         padding: ${px (bar + barGap)} ${px inset} ${px inset} ${px inset};
         background-color: ${role.window-ground};
@@ -269,6 +276,11 @@ let
         border: 1px;
         border-color: ${role.window-border};
         border-radius: 0px;
+      }
+
+      error-message {
+        margin: ${px msgMargin.top} ${px msgMargin.right} 0px ${px msgMargin.left};
+        background-image: url("ddlc-error-${variant}.svg", width);
       }
 
       textbox {
@@ -280,8 +292,10 @@ in
 {
   polkaLight = polkaSvg "light";
   polkaDark = polkaSvg "dark";
-  windowLight = windowSvg "light";
-  windowDark = windowSvg "dark";
+  windowLight = windowSvg "light" title;
+  windowDark = windowSvg "dark" title;
+  errorLight = windowSvg "light" errorTitle;
+  errorDark = windowSvg "dark" errorTitle;
 
   # The images are named, not pathed: rofi resolves a bare filename against
   # $XDG_CONFIG_HOME/rofi/themes and the data dirs, which is where they ship

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="300">
+  <rect width="680" height="300" fill="#222222" />
+  <rect y="0" width="680" height="38" fill="#361B39" />
+  <text x="23" y="19" dominant-baseline="central" xml:space="preserve"
+    font-family="monospace, monospace" font-size="16"><tspan fill="#DD77BB">&gt;</tspan><tspan fill="#D79DBF"> error!</tspan></text>
+</svg>

@@ -97,7 +97,7 @@ element alternate {
   background-color: rgba(108, 70, 129, 0.96);
 }
 
-message {
+message, error-message {
   margin: 0px 6px 12px 6px;
   padding: 50px 16px 16px 16px;
   background-color: #222222;
@@ -105,6 +105,11 @@ message {
   border: 1px;
   border-color: #6C4681;
   border-radius: 0px;
+}
+
+error-message {
+  margin: 0px 6px 0px 6px;
+  background-image: url("ddlc-error-dark.svg", width);
 }
 
 textbox {

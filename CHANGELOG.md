@@ -2,6 +2,12 @@
 
 Kept in the shape of [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versioned by [semver](https://semver.org/spec/v2.0.0.html)
 
+## [Unreleased]
+
+### Fixed
+
+- the error rofi shows when a command fails to run is now the message's small window, where its text stood on the paper. Its title bar says `error!` after the prompt, from `ddlc-error-light.svg` and `ddlc-error-dark.svg`, deployed and installed next to the other images
+
 ## [1.3.1] - 2026-10-10
 
 ### Fixed
