@@ -179,16 +179,24 @@
                 # A setting rides in the generated theme, so changing it has to move the path
                 want '.package != .tunedPackage' "the placeholder does not reach the package"
 
-                want '.files | index("rofi/themes/ddlc-light.rasi")' "the light variant is not deployed"
-                want '.files | index("rofi/themes/ddlc-dark.rasi")' "the dark variant is not deployed"
+                fail() { echo "module wiring: $1"; exit 1; }
+
+                want '.files == ["rofi/themes"]' "the module deploys more than the theme directory"
+                want '.themes.source == .package + "/share/rofi/themes"' \
+                  "the theme directory does not come from the package"
+                want '.themes.recursive' "the theme directory is one link, which shuts other themes out of it"
+
+                dir=$(jq -r .themes.source "$dumpPath")
+                for v in light dark; do
+                  [ -f "$dir/ddlc-$v.rasi" ] || fail "the $v variant is not deployed"
+                done
                 # rofi resolves a bare image name against this directory, not against the
-                # theme file, so the backgrounds have to be deployed next to the variants
-                want '.files | index("rofi/themes/ddlc-polka-light.svg")' "the light background is not deployed"
-                want '.files | index("rofi/themes/ddlc-polka-dark.svg")' "the dark background is not deployed"
-                want '.files | index("rofi/themes/ddlc-window-light.svg")' "the light message window is not deployed"
-                want '.files | index("rofi/themes/ddlc-window-dark.svg")' "the dark message window is not deployed"
-                want '[.sources[] | select(test("/nix/store/.*ddlc-rofi-theme"))] | length == 6' \
-                  "a deployed file does not come from the package"
+                # theme file, so every image a variant names has to be deployed beside it
+                images=$(grep -ho 'url("[^"]*"' "$dir"/*.rasi | sed 's/^url("//; s/"$//' | sort -u)
+                [ -n "$images" ] || fail "no image found in the variants, so the extractor is broken"
+                for image in $images; do
+                  [ -f "$dir/$image" ] || fail "$image is named by a variant but not deployed"
+                done
 
                 # The title bar names the user, and the host where the system's configuration
                 # is at hand
@@ -196,7 +204,9 @@
                 want '.nixosTitle == "test@club"' "the title is not user@host under NixOS"
 
                 want '.theme == "ddlc"' "the theme is not named in the rofi config"
-                want '.namedFiles | index("rofi/themes/doki-light.rasi")' "the name does not reach the variants"
+                named=$(jq -r .namedThemes.source "$dumpPath")
+                [ -f "$named/doki-light.rasi" ] && [ -f "$named/doki-dark.rasi" ] ||
+                  fail "the name does not reach the variants"
                 want '.namedTheme == "doki"' "the name does not reach the rofi config"
 
                 want '.activation | index("ddlc-rofi-theme")' "nothing picks the first variant"

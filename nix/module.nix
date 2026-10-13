@@ -17,11 +17,6 @@ let
 
   host = if osConfig == null then null else osConfig.networking.hostName or null;
 
-  # The variants are deployed into ~/.config rather than linked from the store, so the
-  # switch's symlink survives a garbage collection
-  deploy = name: {
-    "${themes}/${name}".source = "${cfg.package}/share/${themes}/${name}";
-  };
 in
 {
   options.ddlc.rofi = {
@@ -142,15 +137,15 @@ in
     (lib.mkIf cfg.enable {
       home.packages = [ cfg.package ];
 
-      xdg.configFile =
-        deploy "${cfg.name}-light.rasi"
-        // deploy "${cfg.name}-dark.rasi"
-        # rofi resolves a bare image name against this directory, so the backgrounds
-        # have to land in it too
-        // deploy "ddlc-polka-light.svg"
-        // deploy "ddlc-polka-dark.svg"
-        // deploy "ddlc-window-light.svg"
-        // deploy "ddlc-window-dark.svg";
+      # Every file the package ships, the variants and the images they name, since rofi
+      # resolves a bare image name against this directory. Recursive links each file on
+      # its own, so the directory stays open to other themes and to the switch's symlink.
+      # That symlink points at these files in ~/.config rather than into the store, so it
+      # survives a garbage collection
+      xdg.configFile.${themes} = {
+        source = "${cfg.package}/share/${themes}";
+        recursive = true;
+      };
 
       programs.rofi.theme = lib.mkDefault cfg.name;
 

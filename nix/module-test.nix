@@ -42,6 +42,10 @@ let
               options.source = lib.mkOption {
                 type = lib.types.either lib.types.str lib.types.path;
               };
+              options.recursive = lib.mkOption {
+                type = lib.types.bool;
+                default = false;
+              };
             }
           );
           default = { };
@@ -98,9 +102,10 @@ in
   tunedPackage = lib.concatMapStringsSep " " toString tuned.home.packages;
 
   files = lib.attrNames on.xdg.configFile;
-  namedFiles = lib.attrNames named.xdg.configFile;
-  # Every deployed file has to come out of the package, or the link points at nothing
-  sources = lib.mapAttrsToList (_: v: toString v.source) on.xdg.configFile;
+  # The store paths keep their context, so the check that reads this builds the packages
+  # and can look inside the directories it is handed
+  themes = on.xdg.configFile."rofi/themes" or null;
+  namedThemes = named.xdg.configFile."rofi/themes" or null;
 
   title = on.ddlc.rofi.title;
   nixosTitle = inNixos.ddlc.rofi.title;

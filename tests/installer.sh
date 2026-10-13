@@ -64,10 +64,12 @@ say "an install lands the theme, the switch and the manifest"
 run >/dev/null 2>&1
 [[ -f "$prefix/share/rofi/themes/ddlc-light.rasi" ]] || die "light variant missing"
 [[ -f "$prefix/share/rofi/themes/ddlc-dark.rasi" ]] || die "dark variant missing"
-[[ -f "$prefix/share/rofi/themes/ddlc-polka-light.svg" ]] || die "light background missing"
-[[ -f "$prefix/share/rofi/themes/ddlc-polka-dark.svg" ]] || die "dark background missing"
-[[ -f "$prefix/share/rofi/themes/ddlc-window-light.svg" ]] || die "light message window missing"
-[[ -f "$prefix/share/rofi/themes/ddlc-window-dark.svg" ]] || die "dark message window missing"
+# Every image dist/ ships, so a new one needs no line here
+images=("$REPO"/dist/*.svg)
+[[ -f "${images[0]}" ]] || die "found no image in dist/ — the glob is broken"
+for image in "${images[@]}"; do
+  [[ -f "$prefix/share/rofi/themes/$(basename "$image")" ]] || die "$(basename "$image") missing"
+done
 [[ -x "$prefix/bin/ddlc-rofi-theme" ]] || die "switch missing from bin"
 [[ ! -L "$prefix/bin/ddlc-rofi-theme" ]] ||
   die "the switch is a symlink — it must be a copy to find the theme from its location"
