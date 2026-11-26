@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref }}
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@v32
 
       - name: VERSION matches CHANGELOG
         run: |
@@ -72,7 +72,7 @@ jobs:
       - uses: actions/checkout@v7
         with:
           ref: ${{ inputs.ref }}
-      - uses: cachix/install-nix-action@v31
+      - uses: cachix/install-nix-action@v32
       # nix run/shell nixpkgs#tool is a mirror-fate lookup — whatever nixpkgs the runner
       # resolves today decides the job. Tools a workflow needs live in the flake's dev
       # shell, pinned by the lock, reached with nix develop
