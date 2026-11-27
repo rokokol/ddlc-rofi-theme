@@ -5,5 +5,7 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
+    exclude-paths:
+      - ".github/workflows/flakehub-publish.yml"
     schedule:
       interval: weekly
